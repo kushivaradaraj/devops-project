@@ -32,7 +32,7 @@ class CalculatorServiceTest {
         calculator = new CalculatorService();
     }
 
-    // ==================== ADDITION TESTS ====================
+    //  ADDITION TESTS
 
     @Test
     @DisplayName("Addition: 2 + 3 should equal 5")
@@ -61,7 +61,7 @@ class CalculatorServiceTest {
         assertEquals(5, calculator.add(5, 0), "Adding zero should return same number");
     }
 
-    // ==================== SUBTRACTION TESTS ====================
+    //  SUBTRACTION TESTS 
 
     @Test
     @DisplayName("Subtraction: 5 - 3 should equal 2")
@@ -75,7 +75,7 @@ class CalculatorServiceTest {
         assertEquals(-2, calculator.subtract(3, 5));
     }
 
-    // ==================== MULTIPLICATION TESTS ====================
+    //  MULTIPLICATION TESTS 
 
     @Test
     @DisplayName("Multiplication: 4 * 3 should equal 12")
@@ -97,7 +97,7 @@ class CalculatorServiceTest {
         assertEquals(12, calculator.multiply(-4, -3), "Negative times negative");
     }
 
-    // ==================== DIVISION TESTS ====================
+    //  DIVISION TESTS 
 
     @Test
     @DisplayName("Division: 10 / 2 should equal 5")

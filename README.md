@@ -4,7 +4,7 @@
 
 A production-grade CI/CD pipeline demonstration using GitHub Actions, showcasing DevSecOps principles and best practices.
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [Overview](#overview)
 - [Architecture](#architecture)
@@ -16,21 +16,21 @@ A production-grade CI/CD pipeline demonstration using GitHub Actions, showcasing
 - [Security Features](#security-features)
 - [Troubleshooting](#troubleshooting)
 
-## 🎯 Overview
+##  Overview
 
 This project demonstrates a complete CI/CD pipeline that includes:
 
-- ✅ Automated builds on every push
-- ✅ Code quality checks (Checkstyle linting)
-- ✅ Unit and integration testing
-- ✅ Static Application Security Testing (SAST) with CodeQL
-- ✅ Software Composition Analysis (SCA) with OWASP Dependency Check
-- ✅ Docker containerization
-- ✅ Container vulnerability scanning with Trivy
-- ✅ Runtime validation
-- ✅ Automated deployment to Docker Hub
+- Automated builds on every push
+- Code quality checks (Checkstyle linting)
+- Unit and integration testing
+- Static Application Security Testing (SAST) with CodeQL
+- Software Composition Analysis (SCA) with OWASP Dependency Check
+- Docker containerization
+- Container vulnerability scanning with Trivy
+- Runtime validation
+- Automated deployment to Docker Hub
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -65,7 +65,7 @@ This project demonstrates a complete CI/CD pipeline that includes:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-## 🔄 Pipeline Stages
+##  Pipeline Stages
 
 | Stage | Tool | Purpose | Why It Matters |
 |-------|------|---------|----------------|
@@ -81,7 +81,7 @@ This project demonstrates a complete CI/CD pipeline that includes:
 | **Runtime Test** | curl | Smoke testing | Verifies container runs correctly |
 | **Push** | docker/login-action | Publish to registry | Enables deployment |
 
-## 📦 Prerequisites
+## Prerequisites
 
 ### Local Development
 - Java 17 or higher
@@ -93,7 +93,7 @@ This project demonstrates a complete CI/CD pipeline that includes:
 - GitHub account
 - Docker Hub account
 
-## 💻 Local Setup
+##  Local Setup
 
 ### 1. Clone the Repository
 
@@ -105,10 +105,9 @@ cd devops-project
 ### 2. Build the Application
 
 ```bash
-# Compile and run tests
+
 mvn clean verify
 
-# Package without tests (faster)
 mvn package -DskipTests
 ```
 
@@ -149,7 +148,7 @@ docker run -p 8080:8080 devops-cicd-demo
 curl http://localhost:8080/health
 ```
 
-## ⚙️ GitHub Setup
+##  GitHub Setup
 
 ### 1. Create GitHub Repository
 
@@ -177,26 +176,8 @@ curl http://localhost:8080/health
 4. Name it "GitHub Actions"
 5. Copy the token (you won't see it again!)
 
-### 3. Push Code
 
-```bash
-# Initialize git (if not already done)
-git init
-
-# Add remote
-git remote add origin https://github.com/kushivaradaraj/devops-project.git
-
-# Add all files
-git add .
-
-# Commit
-git commit -m "Initial commit: DevOps CI/CD demo project"
-
-# Push to GitHub
-git push -u origin master
-```
-
-## 🚀 Running the Pipeline
+## Running the Pipeline
 
 ### Automatic Triggers
 The pipeline runs automatically on:
@@ -215,7 +196,7 @@ The pipeline runs automatically on:
 3. Click on individual jobs to see logs
 4. Check Security tab for CodeQL results
 
-## 🔒 Security Features
+## Security Features
 
 ### SAST (Static Application Security Testing)
 - **Tool:** GitHub CodeQL
@@ -235,55 +216,7 @@ The pipeline runs automatically on:
 - **Checks:** OS packages, application libraries
 - **Severity:** Reports CRITICAL and HIGH
 
-## 🔧 Troubleshooting
-
-### Pipeline Fails at Build Stage
-```bash
-# Check locally
-mvn clean compile
-
-# Common issues:
-# - Java version mismatch
-# - Missing dependencies
-```
-
-### Checkstyle Failures
-```bash
-# Run checkstyle locally
-mvn checkstyle:check
-
-# Fix reported issues in your code
-```
-
-### Test Failures
-```bash
-# Run tests locally
-mvn test
-
-# Check test output for details
-```
-
-### Docker Build Fails
-```bash
-# Build locally to see errors
-docker build -t test .
-
-# Common issues:
-# - Dockerfile syntax errors
-# - Missing files
-```
-
-### Docker Push Fails
-- Verify `DOCKERHUB_USERNAME` secret is set correctly
-- Verify `DOCKERHUB_TOKEN` secret is valid
-- Check Docker Hub account is active
-
-### CodeQL Fails
-- Ensure repository has Java code
-- Check Java version compatibility
-- Review CodeQL logs for specific errors
-
-## 📚 Project Structure
+## Project Structure
 
 ```
 devops-cicd-demo/
@@ -313,7 +246,7 @@ devops-cicd-demo/
 └── README.md                  # This file
 ```
 
-## 🎓 Learning Resources
+## Learning Resources
 
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Docker Documentation](https://docs.docker.com/)
@@ -321,12 +254,5 @@ devops-cicd-demo/
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [DevSecOps Best Practices](https://www.devsecops.org/)
 
-## 📝 License
-
-This project is for educational purposes as part of the DevOps CI/CD assessment.
-
----
-
 **Author:** Kushi Varadaraj  
 **Student ID:** 10035  
-**Date:** January 2026
