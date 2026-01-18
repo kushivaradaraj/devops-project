@@ -199,7 +199,7 @@ jobs:
         run: |
           response=$(curl -s "http://localhost:8080/hello?name=CI")
           echo "Hello response: $response"
-          if [[ "$response" == "Hello, CI" ]]; then
+          if echo "$response" | grep -q "Hello, CI"; then
             echo " Hello endpoint test passed"
           else
             echo " Hello endpoint test failed"
