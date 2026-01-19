@@ -2,257 +2,137 @@
 
 [![CI/CD Pipeline](https://github.com/kushivaradaraj/devops-project/actions/workflows/ci.yml/badge.svg)](https://github.com/kushivaradaraj/devops-project/actions/workflows/ci.yml)
 
-A production-grade CI/CD pipeline demonstration using GitHub Actions, showcasing DevSecOps principles and best practices.
+A complete CI/CD pipeline using GitHub Actions. Shows how to automate building, testing, and deploying code with proper security checks.
 
-##  Table of Contents
+## What This Does
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Pipeline Stages](#pipeline-stages)
-- [Prerequisites](#prerequisites)
-- [Local Setup](#local-setup)
-- [GitHub Setup](#github-setup)
-- [Running the Pipeline](#running-the-pipeline)
-- [Security Features](#security-features)
-- [Troubleshooting](#troubleshooting)
+Every time you push code, this pipeline automatically:
+- Builds your application
+- Runs all tests
+- Checks for security issues
+- Creates a Docker container
+- Deploys it to Docker Hub
 
-##  Overview
+No manual work needed.
 
-This project demonstrates a complete CI/CD pipeline that includes:
-
-- Automated builds on every push
-- Code quality checks (Checkstyle linting)
-- Unit and integration testing
-- Static Application Security Testing (SAST) with CodeQL
-- Software Composition Analysis (SCA) with OWASP Dependency Check
-- Docker containerization
-- Container vulnerability scanning with Trivy
-- Runtime validation
-- Automated deployment to Docker Hub
-
-##  Architecture
+## How It Works
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                        CI/CD PIPELINE FLOW                          │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│   ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    │
-│   │  Code    │───▶│  Build   │───▶│ Security │───▶│  Docker  │    │
-│   │  Push    │    │  & Test  │    │  Scans   │    │  Build   │    │
-│   └──────────┘    └──────────┘    └──────────┘    └──────────┘    │
-│                                          │              │          │
-│                                          ▼              ▼          │
-│                                   ┌──────────┐    ┌──────────┐    │
-│                                   │   SAST   │    │  Image   │    │
-│                                   │ (CodeQL) │    │   Scan   │    │
-│                                   └──────────┘    └──────────┘    │
-│                                          │              │          │
-│                                   ┌──────────┐          │          │
-│                                   │   SCA    │          │          │
-│                                   │ (OWASP)  │          ▼          │
-│                                   └──────────┘    ┌──────────┐    │
-│                                                   │ Runtime  │    │
-│                                                   │  Test    │    │
-│                                                   └──────────┘    │
-│                                                         │          │
-│                                                         ▼          │
-│                                                   ┌──────────┐    │
-│                                                   │  Push to │    │
-│                                                   │Docker Hub│    │
-│                                                   └──────────┘    │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+Push Code → Build & Test → Security Scans → Docker Build → Deploy
 ```
 
-##  Pipeline Stages
+## What You Need
 
-| Stage | Tool | Purpose | Why It Matters |
-|-------|------|---------|----------------|
-| **Checkout** | actions/checkout | Get source code | Foundation for all subsequent steps |
-| **Setup Java** | actions/setup-java | Install JDK 17 | Required for Java compilation |
-| **Linting** | Checkstyle | Code style enforcement | Prevents technical debt, ensures consistency |
-| **Unit Tests** | JUnit 5 | Test business logic | Catches bugs early, prevents regressions |
-| **Build** | Maven | Package application | Creates deployable artifact (JAR) |
-| **SAST** | CodeQL | Source code security scan | Finds OWASP Top 10 vulnerabilities in code |
-| **SCA** | OWASP Dependency Check | Dependency scanning | Identifies vulnerable libraries |
-| **Docker Build** | Docker | Create container image | Consistent, portable deployment |
-| **Image Scan** | Trivy | Container vulnerability scan | Finds OS/library vulnerabilities in image |
-| **Runtime Test** | curl | Smoke testing | Verifies container runs correctly |
-| **Push** | docker/login-action | Publish to registry | Enables deployment |
-
-## Prerequisites
-
-### Local Development
-- Java 17 or higher
+**On your computer:**
+- Java 17+
 - Maven 3.6+
 - Docker Desktop
 - Git
 
-### GitHub
-- GitHub account
-- Docker Hub account
+**Online accounts:**
+- GitHub
+- Docker Hub
 
-##  Local Setup
+## Quick Start
 
-### 1. Clone the Repository
-
+**1. Get the code**
 ```bash
 git clone https://github.com/kushivaradaraj/devops-project.git
 cd devops-project
 ```
 
-### 2. Build the Application
-
+**2. Build it**
 ```bash
-
 mvn clean verify
-
-mvn package -DskipTests
 ```
 
-### 3. Run Locally
-
+**3. Run it**
 ```bash
-# Run with Maven
 mvn spring-boot:run
-
-# Or run the JAR directly
-java -jar target/devops-cicd-demo-1.0.0.jar
 ```
 
-### 4. Test the Endpoints
-
+**4. Test it**
 ```bash
-# Health check
 curl http://localhost:8080/health
-
-# Hello endpoint
 curl http://localhost:8080/hello
-curl "http://localhost:8080/hello?name=YourName"
-
-# Version
-curl http://localhost:8080/version
 ```
 
-### 5. Build and Run with Docker
-
+**5. Try with Docker**
 ```bash
-# Build image
 docker build -t devops-cicd-demo .
-
-# Run container
 docker run -p 8080:8080 devops-cicd-demo
-
-# Test
-curl http://localhost:8080/health
 ```
 
-##  GitHub Setup
+## GitHub Setup
 
-### 1. Create GitHub Repository
+**Create your repo:**
+1. Make a new GitHub repo called `devops-project`
+2. Make it public (for free GitHub Actions)
 
-1. Go to [GitHub](https://github.com) and create a new repository
-2. Name it `devops-project`
-3. Make it public (required for free GitHub Actions minutes)
+**Add secrets (important!):**
 
-### 2. Configure Secrets
+Go to Settings → Secrets and variables → Actions, then add:
+- `DOCKERHUB_USERNAME` - your Docker Hub username
+- `DOCKERHUB_TOKEN` - your Docker Hub token (not password!)
 
-**This is CRITICAL for the pipeline to work!**
+To get a token: Docker Hub → Account Settings → Security → New Access Token
 
-1. Go to your repository → Settings → Secrets and variables → Actions
-2. Click "New repository secret"
-3. Add these secrets:
+## Pipeline Stages
 
-| Secret Name | Value | Description |
-|-------------|-------|-------------|
-| `DOCKERHUB_USERNAME` | Your Docker Hub username | Used to push images |
-| `DOCKERHUB_TOKEN` | Your Docker Hub access token | Secure authentication |
+Here's what happens at each step:
 
-**How to get Docker Hub Token:**
-1. Log in to [Docker Hub](https://hub.docker.com)
-2. Go to Account Settings → Security
-3. Click "New Access Token"
-4. Name it "GitHub Actions"
-5. Copy the token (you won't see it again!)
+**Code Quality**
+- Checkstyle checks your code style
+- JUnit runs all tests
+- Maven builds everything
 
+**Security Scans**
+- CodeQL scans your code for vulnerabilities
+- OWASP checks your dependencies for known issues
+
+**Docker**
+- Builds a container with your app
+- Trivy scans the container for security problems
+- Tests that it actually works
+- Pushes to Docker Hub
 
 ## Running the Pipeline
 
-### Automatic Triggers
-The pipeline runs automatically on:
-- Push to `master` or `main` branch
-- Pull requests to `master` or `main`
+**Automatic:** Runs on every push to main/master
 
-### Manual Trigger
-1. Go to Actions tab in your repository
-2. Select "CI/CD Pipeline" workflow
-3. Click "Run workflow"
-4. Select branch and click "Run workflow"
-
-### Viewing Results
+**Manual:** 
 1. Go to Actions tab
-2. Click on the workflow run
-3. Click on individual jobs to see logs
-4. Check Security tab for CodeQL results
+2. Click "Run workflow"
+3. Pick your branch and run
 
-## Security Features
+## Security Tools
 
-### SAST (Static Application Security Testing)
-- **Tool:** GitHub CodeQL
-- **What it does:** Analyzes source code for security vulnerabilities
-- **Checks for:** SQL injection, XSS, path traversal, etc.
-- **Results:** Visible in GitHub Security tab
+**CodeQL** - Finds security bugs in your code (SQL injection, XSS, etc.)
 
-### SCA (Software Composition Analysis)
-- **Tool:** OWASP Dependency Check
-- **What it does:** Scans dependencies for known vulnerabilities
-- **Database:** National Vulnerability Database (NVD)
-- **Report:** Uploaded as artifact
+**OWASP Dependency Check** - Finds vulnerable libraries you're using
 
-### Container Scanning
-- **Tool:** Trivy
-- **What it does:** Scans Docker image for vulnerabilities
-- **Checks:** OS packages, application libraries
-- **Severity:** Reports CRITICAL and HIGH
+**Trivy** - Scans your Docker image for security issues
 
-## Project Structure
+## What's In Here
 
 ```
 devops-cicd-demo/
-├── .github/
-│   └── workflows/
-│       └── ci.yml              # CI/CD pipeline definition
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/example/demo/
-│   │   │       ├── DemoApplication.java      # Main application
-│   │   │       ├── HelloController.java      # REST endpoints
-│   │   │       └── CalculatorService.java    # Business logic
-│   │   └── resources/
-│   │       └── application.properties        # Configuration
-│   └── test/
-│       └── java/
-│           └── com/example/demo/
-│               ├── CalculatorServiceTest.java    # Unit tests
-│               └── HelloControllerTest.java      # Integration tests
-├── Dockerfile                  # Container definition
-├── .dockerignore              # Docker build exclusions
-├── pom.xml                    # Maven configuration
-├── checkstyle.xml             # Code style rules
-├── dependency-check-suppression.xml  # SCA suppressions
-├── .gitignore                 # Git exclusions
-└── README.md                  # This file
+├── .github/workflows/ci.yml          # The pipeline
+├── src/main/java/                    # Your code
+├── src/test/java/                    # Your tests
+├── Dockerfile                        # Container recipe
+├── pom.xml                          # Maven config
+└── README.md                        # This file
 ```
 
-## Learning Resources
+## Learn More
 
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [Docker Documentation](https://docs.docker.com/)
-- [Spring Boot Reference](https://spring.io/projects/spring-boot)
+- [GitHub Actions](https://docs.github.com/en/actions)
+- [Docker](https://docs.docker.com/)
+- [Spring Boot](https://spring.io/projects/spring-boot)
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [DevSecOps Best Practices](https://www.devsecops.org/)
+
+---
 
 **Author:** Kushi Varadaraj  
 **Student ID:** 10035  
