@@ -5,46 +5,27 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Calculator Service Tests
- * 
- * These are UNIT TESTS - they verify that individual pieces of code work correctly.
- * 
- * WHY UNIT TESTS MATTER IN CI/CD:
- * 1. They catch bugs BEFORE code is deployed
- * 2. They run automatically on every code push
- * 3. They prevent regressions (breaking things that used to work)
- * 4. They serve as documentation of expected behavior
- * 
- * The CI pipeline will run these tests automatically and FAIL the build
- * if any test fails. This prevents broken code from being deployed.
- */
+
+ // Calculator Service Tests
+
 class CalculatorServiceTest {
 
     private CalculatorService calculator;
 
-    /**
-     * This method runs BEFORE each test.
-     * It creates a fresh CalculatorService instance for each test.
-     */
     @BeforeEach
     void setUp() {
         calculator = new CalculatorService();
     }
 
-    //  ADDITION TESTS
 
     @Test
     @DisplayName("Addition: 2 + 3 should equal 5")
     void testAddPositiveNumbers() {
-        // Arrange: Set up test data
         int a = 2;
         int b = 3;
         
-        // Act: Perform the operation
         int result = calculator.add(a, b);
         
-        // Assert: Verify the result
         assertEquals(5, result, "2 + 3 should equal 5");
     }
 
@@ -114,8 +95,7 @@ class CalculatorServiceTest {
     @Test
     @DisplayName("Division: throws exception when dividing by zero")
     void testDivideByZero() {
-        // This test verifies that our code properly handles errors
-        // Dividing by zero should throw an IllegalArgumentException
+
         Exception exception = assertThrows(
             IllegalArgumentException.class,
             () -> calculator.divide(10, 0)

@@ -1,13 +1,3 @@
-# .dockerignore
-# 
-# This file tells Docker which files to IGNORE when building.
-# Like .gitignore, but for Docker.
-#
-# WHY IT MATTERS:
-# - Faster builds (less files to copy)
-# - Smaller images (no unnecessary files)
-# - Security (don't include secrets)
-
 # Git
 .git
 .gitignore
